@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Table(name = "EXAMS")
@@ -43,5 +42,13 @@ public class Exam {
         return getClass().hashCode();
     }
 
-
+    @Override
+    public String toString() {
+        return "Exam{" +
+                "id=" + id +
+                ", subject=" + subject +
+                ", grade=" + grade +
+                ", time=" + time +
+                '}';
+    }
 }
