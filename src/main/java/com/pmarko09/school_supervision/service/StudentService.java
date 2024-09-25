@@ -37,7 +37,7 @@ public class StudentService {
     public StudentDTO updateStudent(Long id, Student updatedStudent) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
-        //updatujaca metoda
+        Student.update(student, updatedStudent);
         return studentMapper.toDto(studentRepository.save(student));
     }
 

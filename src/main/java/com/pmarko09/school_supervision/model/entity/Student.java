@@ -67,4 +67,14 @@ public class Student {
                 ", subjects=" + subjects.stream().map(Subject::getId).collect(Collectors.toSet()) +
                 '}';
     }
+
+    public static void update(Student student, Student updatedStudent) {
+        updatedStudent.setFirstname(student.getFirstname());
+        updatedStudent.setLastname(student.getLastname());
+        updatedStudent.setCardNumber(student.getCardNumber());
+        updatedStudent.setEmail(student.getEmail());
+        updatedStudent.setPassword(student.getPassword());
+        updatedStudent.setSchoolClass(student.getSchoolClass());
+        updatedStudent.setSubjects(student.getSubjects());
+    }
 }
