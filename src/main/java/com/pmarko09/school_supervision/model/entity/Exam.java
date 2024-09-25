@@ -46,7 +46,7 @@ public class Exam {
     public String toString() {
         return "Exam{" +
                 "id=" + id +
-                ", subject=" + subject +
+                ", subject=" + subject.getId() +
                 ", grade=" + grade +
                 ", time=" + time +
                 '}';

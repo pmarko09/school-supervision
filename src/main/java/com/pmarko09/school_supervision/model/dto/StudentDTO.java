@@ -17,7 +17,7 @@ public class StudentDTO {
     private String lastname;
     private Integer cardNumber;
     private String email;
-    private SchoolClass schoolClass;
+    private Long schoolClassId;
     private Set<Long> subjectIds;
 
 }

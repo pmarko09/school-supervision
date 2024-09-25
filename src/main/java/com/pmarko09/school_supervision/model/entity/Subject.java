@@ -21,7 +21,8 @@ public class Subject {
     private Long id;
     private String name;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
     @OneToMany(mappedBy = "subject")
@@ -56,7 +57,7 @@ public class Subject {
         return "Subject{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", teacher=" + teacher +
+                ", teacher=" + teacher.getId() +
                 ", exams=" + exams.stream().map(Exam::getId).collect(Collectors.toSet()) +
                 ", students=" + students.stream().map(Student::getId).collect(Collectors.toSet());
     }

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ExamDTO {
 
     private Long id;
-    private Subject subject;
+    private Long subjectId;
     private Double grade;
     private LocalDateTime time;
 
