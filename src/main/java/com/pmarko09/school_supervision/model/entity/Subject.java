@@ -61,4 +61,11 @@ public class Subject {
                 ", exams=" + exams.stream().map(Exam::getId).collect(Collectors.toSet()) +
                 ", students=" + students.stream().map(Student::getId).collect(Collectors.toSet());
     }
+
+    public static void update(Subject subject, Subject updatedSubject) {
+        updatedSubject.setName(subject.getName());
+        updatedSubject.setTeacher(subject.getTeacher());
+        updatedSubject.setExams(subject.getExams());
+        updatedSubject.setStudents(subject.getStudents());
+    }
 }
