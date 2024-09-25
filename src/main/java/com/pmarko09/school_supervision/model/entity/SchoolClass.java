@@ -3,9 +3,11 @@ package com.pmarko09.school_supervision.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.antlr.v4.runtime.misc.ObjectEqualityComparator;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "SCHOOL_CLASSES")
@@ -22,4 +24,33 @@ public class SchoolClass {
     @OneToMany(mappedBy = "schoolClass")
     private Set<Student> students = new HashSet<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof SchoolClass other)) {
+            return false;
+        }
+
+        return id != null && id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        if (id == null) {
+            return 0;
+        }
+        return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "SchoolClass{" +
+                "id=" + id +
+                ", number=" + number +
+                ", name='" + name + '\'' +
+                ", students=" + students.stream().map(Student::getId).collect(Collectors.toSet()) +
+                '}';
+    }
 }

@@ -14,6 +14,6 @@ public class TeacherDTO {
     private String firstname;
     private String lastname;
     private String email;
-    private Subject subject;
+    private Long subjectId;
 
 }

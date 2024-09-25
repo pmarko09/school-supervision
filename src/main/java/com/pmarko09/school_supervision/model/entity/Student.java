@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "STUDENTS")
@@ -51,5 +52,19 @@ public class Student {
         }
 
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", cardNumber=" + cardNumber +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", schoolClass=" + schoolClass.getId() +
+                ", subjects=" + subjects.stream().map(Subject::getId).collect(Collectors.toSet()) +
+                '}';
     }
 }

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface StudentMapper {
 
-    @Mapping(source = "subjects", target = "subjectIds", qualifiedByName = "")
+    @Mapping(source = "subjects", target = "subjectIds", qualifiedByName = "mapSubjectsToIds")
     StudentDTO toDto(Student student);
 
     @Named("mapSubjectsToIds")

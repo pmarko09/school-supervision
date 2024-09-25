@@ -15,8 +15,8 @@ public class SubjectDTO {
 
     private Long id;
     private String name;
-    private Teacher teacher;
-    private Exam exam;
+    private Long teacherId;
+    private Set<Long> examIds;
     private Set<Long> studentIds;
 
 }
