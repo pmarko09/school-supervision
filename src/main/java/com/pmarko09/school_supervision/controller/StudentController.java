@@ -41,8 +41,15 @@ public class StudentController {
         return studentService.deleteStudent(id);
     }
 
-//    @PostMapping("/{studentId}/schoolClass/{schoolClassId}")
-//    public StudentDTO assignStudentToSchoolClass(@PathVariable Long studentId, @PathVariable Long schoolClassId) {
-//
-//    }
+    @PostMapping("/{studentId}/schoolClass/{schoolClassId}")
+    public StudentDTO assignStudentToSchoolClass(@PathVariable Long studentId, @PathVariable Long schoolClassId) {
+        return studentService.addStudentToSchoolClass(studentId, schoolClassId);
+    }
+
+    @PostMapping("{studentId}/subjects/{subjectId}")
+    public StudentDTO assignSubjectToStudent(@PathVariable Long studentId, @PathVariable Long subjectId) {
+        return studentService.addSubjects(studentId, subjectId);
+    }
 }
+
+

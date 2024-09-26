@@ -51,4 +51,10 @@ public class Exam {
                 ", time=" + time +
                 '}';
     }
+
+    public static void update(Exam exam, Exam updatedExam) {
+        exam.setSubject(updatedExam.getSubject());
+        exam.setGrade(updatedExam.getGrade());
+        exam.setTime(updatedExam.getTime());
+    }
 }

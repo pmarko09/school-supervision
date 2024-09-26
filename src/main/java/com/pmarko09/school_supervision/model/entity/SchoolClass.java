@@ -53,4 +53,10 @@ public class SchoolClass {
                 ", students=" + students.stream().map(Student::getId).collect(Collectors.toSet()) +
                 '}';
     }
+
+    public static void update(SchoolClass schoolClass, SchoolClass updatedSchoolClass) {
+        schoolClass.setNumber(updatedSchoolClass.getNumber());
+        schoolClass.setName(updatedSchoolClass.getName());
+        schoolClass.setStudents(updatedSchoolClass.getStudents());
+    }
 }
