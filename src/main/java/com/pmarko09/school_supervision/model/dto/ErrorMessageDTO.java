@@ -2,19 +2,17 @@ package com.pmarko09.school_supervision.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class ExamDTO {
+public class ErrorMessageDTO {
 
-    private Long id;
-    private Long subjectId;
-    private Long examResultId;
-    private Double grade;
+    private String message;
     private LocalDateTime time;
+    private HttpStatus httpStatus;
 
 }

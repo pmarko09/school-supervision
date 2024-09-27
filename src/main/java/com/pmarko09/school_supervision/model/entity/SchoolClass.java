@@ -3,7 +3,6 @@ package com.pmarko09.school_supervision.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.ObjectEqualityComparator;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +20,7 @@ public class SchoolClass {
     private Integer number;
     private String name;
 
-    @OneToMany(mappedBy = "schoolClass")
+    @OneToMany(mappedBy = "schoolClass", cascade = CascadeType.PERSIST)
     private Set<Student> students = new HashSet<>();
 
     @Override
@@ -52,5 +51,11 @@ public class SchoolClass {
                 ", name='" + name + '\'' +
                 ", students=" + students.stream().map(Student::getId).collect(Collectors.toSet()) +
                 '}';
+    }
+
+    public static void update(SchoolClass schoolClass, SchoolClass updatedSchoolClass) {
+        schoolClass.setNumber(updatedSchoolClass.getNumber());
+        schoolClass.setName(updatedSchoolClass.getName());
+        schoolClass.setStudents(updatedSchoolClass.getStudents());
     }
 }
