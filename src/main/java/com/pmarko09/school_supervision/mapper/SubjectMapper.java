@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public interface SubjectMapper {
 
     @Mapping(source = "teacher", target = "teacherId", qualifiedByName = "mapTeacherToTeacherId")
-    @Mapping(source = "students", target = "studentIds", qualifiedByName = "mapStudentsToStudentIds")
+    @Mapping(source = "students", target = "studentIds", qualifiedByName = "mapStudentsToStudentsIds")
     @Mapping(source = "exams", target = "examIds", qualifiedByName = "mapExamsToExamsIds")
     SubjectDTO toDto(Subject subject);
 
@@ -25,8 +25,8 @@ public interface SubjectMapper {
         return teacher != null ? teacher.getId() : null;
     }
 
-    @Named("mapStudentsToStudentIds")
-    default Set<Long> mapStudentsToStudentIds(Set<Student> students) {
+    @Named("mapStudentsToStudentsIds")
+    default Set<Long> mapStudentsToStudentsIds(Set<Student> students) {
         return students.stream()
                 .map(Student::getId)
                 .collect(Collectors.toSet());

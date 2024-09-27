@@ -55,3 +55,4 @@ public class SubjectController {
         return subjectService.addStudentToSubject(subjectId, studentId);
     }
 }
+

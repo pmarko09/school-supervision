@@ -4,17 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamDTO {
+public class ExamResultDTO {
 
-    private Long id;
-    private Long subjectId;
-    private Long examResultId;
+    private Long studentId;
+    private Long examId;
     private Double grade;
-    private LocalDateTime time;
+    private LocalDate time;
 
 }

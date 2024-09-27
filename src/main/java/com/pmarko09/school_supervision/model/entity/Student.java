@@ -33,6 +33,9 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private Set<Subject> subjects = new HashSet<>();
 
+    @OneToMany(mappedBy = "student", cascade = CascadeType.PERSIST)
+    private Set<ExamResult> examResults;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

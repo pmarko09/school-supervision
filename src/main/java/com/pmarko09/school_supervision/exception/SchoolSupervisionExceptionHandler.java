@@ -2,6 +2,8 @@ package com.pmarko09.school_supervision.exception;
 
 import com.pmarko09.school_supervision.exception.exam.ExamNotFoundException;
 import com.pmarko09.school_supervision.exception.exam.IllegalExamDataException;
+import com.pmarko09.school_supervision.exception.examResult.ExamResultNotFoundException;
+import com.pmarko09.school_supervision.exception.examResult.IllegalExamResultDataException;
 import com.pmarko09.school_supervision.exception.schoolClass.IllegalSchoolClassDataException;
 import com.pmarko09.school_supervision.exception.schoolClass.SchoolClassNotFoundException;
 import com.pmarko09.school_supervision.exception.student.IllegalStudentDataException;
@@ -80,6 +82,18 @@ public class SchoolSupervisionExceptionHandler extends ResponseEntityExceptionHa
 
     @ExceptionHandler(IllegalTeacherDataException.class)
     protected ResponseEntity<Object> handleIllegalTeacherData(IllegalTeacherDataException ex, WebRequest webRequest) {
+        ErrorMessageDTO bodyResponse = new ErrorMessageDTO(ex.getMessage(), LocalDateTime.now(), HttpStatus.BAD_REQUEST);
+        return handleExceptionInternal(ex, bodyResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);
+    }
+
+    @ExceptionHandler(ExamResultNotFoundException.class)
+    protected ResponseEntity<Object> handleExamResultNotFound(ExamResultNotFoundException ex, WebRequest webRequest) {
+        ErrorMessageDTO bodyResponse = new ErrorMessageDTO(ex.getMessage(), LocalDateTime.now(), HttpStatus.NOT_FOUND);
+        return handleExceptionInternal(ex, bodyResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
+    }
+
+    @ExceptionHandler(IllegalExamResultDataException.class)
+    protected ResponseEntity<Object> handleIllegalExamResultData(IllegalExamResultDataException ex, WebRequest webRequest) {
         ErrorMessageDTO bodyResponse = new ErrorMessageDTO(ex.getMessage(), LocalDateTime.now(), HttpStatus.BAD_REQUEST);
         return handleExceptionInternal(ex, bodyResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);
     }

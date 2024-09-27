@@ -19,7 +19,7 @@ public class Subject {
     private Long id;
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 

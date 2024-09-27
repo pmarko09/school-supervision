@@ -26,8 +26,8 @@ import java.util.stream.Collectors;
 public class SubjectService {
 
     private final SubjectRepository subjectRepository;
-    private final TeacherRepository teacherRepository;
     private final ExamRepository examRepository;
+    private final TeacherRepository teacherRepository;
     private final StudentRepository studentRepository;
     private final SubjectMapper subjectMapper;
 
@@ -91,4 +91,5 @@ public class SubjectService {
         studentRepository.save(student);
         return subjectMapper.toDto(subject);
     }
+
 }

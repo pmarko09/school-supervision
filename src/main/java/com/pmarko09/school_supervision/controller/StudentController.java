@@ -49,6 +49,11 @@ public class StudentController {
     public StudentDTO assignSubjectToStudent(@PathVariable Long studentId, @PathVariable Long subjectId) {
         return studentService.addSubjects(studentId, subjectId);
     }
+
+    @PostMapping("/{studentId}/examResults/{examResultId}")
+    public StudentDTO assignExamResultToStudent(@PathVariable Long studentId, @PathVariable Long examResultId) {
+        return studentService.addExamResult(studentId, examResultId);
+    }
 }
 
 

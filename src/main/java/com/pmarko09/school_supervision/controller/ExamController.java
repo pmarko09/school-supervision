@@ -3,7 +3,6 @@ package com.pmarko09.school_supervision.controller;
 import com.pmarko09.school_supervision.model.dto.ExamDTO;
 import com.pmarko09.school_supervision.model.entity.Exam;
 import com.pmarko09.school_supervision.service.ExamService;
-import jdk.jfr.BooleanFlag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,4 +44,10 @@ public class ExamController {
     public ExamDTO assignExamToSubject(@PathVariable Long examId, @PathVariable Long subjectId) {
         return examService.assignSubject(examId, subjectId);
     }
+
+    @PostMapping("/{examId}/examResult/{examResultId}")
+    public ExamDTO assignExamResult(Long examId, Long examResultId) {
+        return examService.assignExamResult(examId, examResultId);
+    }
+
 }
