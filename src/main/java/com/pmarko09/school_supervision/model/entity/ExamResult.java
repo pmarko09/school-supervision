@@ -4,34 +4,35 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "EXAMS")
+@Table(name = "EXAM_RESULT")
 @Getter
 @Setter
-public class Exam {
+public class ExamResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private Subject subject;
+    @JoinColumn(name = "student_id")
+    private Student student;
 
-    @OneToOne(mappedBy = "exam", cascade = CascadeType.ALL)
-    @JoinColumn(name = "examResult_id")
-    private ExamResult examResult;
+    @OneToOne
+    @JoinColumn(name = "exam_id")
+    private Exam exam;
 
     private Double grade;
-    private LocalDateTime time;
+    private LocalDate time;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Exam other)) {
+        if (!(o instanceof ExamResult other)) {
             return false;
         }
 
@@ -43,22 +44,25 @@ public class Exam {
         if (id == null) {
             return 0;
         }
+
         return getClass().hashCode();
     }
 
     @Override
     public String toString() {
-        return "Exam{" +
+        return "ExamResult{" +
                 "id=" + id +
-                ", subject=" + subject.getId() +
+                ", student=" + student.getId() +
+                ", exam=" + exam.getId() +
                 ", grade=" + grade +
                 ", time=" + time +
                 '}';
     }
 
-    public static void update(Exam exam, Exam updatedExam) {
-        exam.setSubject(updatedExam.getSubject());
-        exam.setGrade(updatedExam.getGrade());
-        exam.setTime(updatedExam.getTime());
+    public static void update(ExamResult examResult, ExamResult updated) {
+        examResult.setStudent(updated.getStudent());
+        examResult.setExam(updated.getExam());
+        examResult.setGrade(updated.getGrade());
+        examResult.setTime(updated.getTime());
     }
 }

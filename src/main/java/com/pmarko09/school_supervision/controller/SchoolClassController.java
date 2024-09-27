@@ -40,7 +40,7 @@ public class SchoolClassController {
         return schoolClassService.deleteSchoolClass(id);
     }
 
-    @PostMapping("/{schoolClassId}/students/{studentsIds")
+    @PostMapping("/{schoolClassId}/students/{studentsIds}")
     public SchoolClassDTO assignSchoolClassToStudents(@PathVariable Long schoolClassId, @PathVariable Set<Long> studentsIds) {
         return schoolClassService.assignSchoolClassToStudents(schoolClassId, studentsIds);
     }

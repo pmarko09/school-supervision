@@ -1,11 +1,19 @@
 package com.pmarko09.school_supervision.service;
 
-import com.pmarko09.school_supervision.exception.subject.SubjectNotFoundException;
 import com.pmarko09.school_supervision.mapper.SubjectMapper;
 import com.pmarko09.school_supervision.model.dto.SubjectDTO;
+import com.pmarko09.school_supervision.model.entity.Exam;
+import com.pmarko09.school_supervision.model.entity.Student;
 import com.pmarko09.school_supervision.model.entity.Subject;
+import com.pmarko09.school_supervision.model.entity.Teacher;
+import com.pmarko09.school_supervision.repository.ExamRepository;
+import com.pmarko09.school_supervision.repository.StudentRepository;
 import com.pmarko09.school_supervision.repository.SubjectRepository;
+import com.pmarko09.school_supervision.repository.TeacherRepository;
+import com.pmarko09.school_supervision.validation.ExamValidation;
+import com.pmarko09.school_supervision.validation.StudentValidation;
 import com.pmarko09.school_supervision.validation.SubjectValidation;
+import com.pmarko09.school_supervision.validation.TeacherValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +26,9 @@ import java.util.stream.Collectors;
 public class SubjectService {
 
     private final SubjectRepository subjectRepository;
+    private final ExamRepository examRepository;
+    private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
     private final SubjectMapper subjectMapper;
 
     public Set<SubjectDTO> getAllSubjects() {
@@ -48,4 +59,37 @@ public class SubjectService {
         subjectRepository.delete(subject);
         return subjectMapper.toDto(subject);
     }
+
+    public SubjectDTO assignSubjectToTeacher(Long subjectId, Long teacherId) {
+        Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
+        Teacher teacher = TeacherValidation.teacherExists(teacherRepository, teacherId);
+
+        subject.setTeacher(teacher);
+        teacher.setSubject(subject);
+
+        return subjectMapper.toDto(subjectRepository.save(subject));
+    }
+
+    public SubjectDTO addExamToSubject(Long subjectId, Long examId) {
+        Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
+        Exam exam = ExamValidation.examExists(examRepository, examId);
+
+        subject.getExams().add(exam);
+        exam.setSubject(subject);
+
+        return subjectMapper.toDto(subjectRepository.save(subject));
+    }
+
+    public SubjectDTO addStudentToSubject(Long subjectId, Long studentId) {
+        Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
+        Student student = StudentValidation.studentExists(studentRepository, studentId);
+
+        subject.getStudents().add(student);
+        student.getSubjects().add(subject);
+
+        subjectRepository.save(subject);
+        studentRepository.save(student);
+        return subjectMapper.toDto(subject);
+    }
+
 }

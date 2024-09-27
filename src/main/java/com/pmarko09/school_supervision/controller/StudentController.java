@@ -6,7 +6,6 @@ import com.pmarko09.school_supervision.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 @RequestMapping("/students")
@@ -46,9 +45,14 @@ public class StudentController {
         return studentService.addStudentToSchoolClass(studentId, schoolClassId);
     }
 
-    @PostMapping("{studentId}/subjects/{subjectId}")
+    @PostMapping("/{studentId}/subjects/{subjectId}")
     public StudentDTO assignSubjectToStudent(@PathVariable Long studentId, @PathVariable Long subjectId) {
         return studentService.addSubjects(studentId, subjectId);
+    }
+
+    @PostMapping("/{studentId}/examResults/{examResultId}")
+    public StudentDTO assignExamResultToStudent(@PathVariable Long studentId, @PathVariable Long examResultId) {
+        return studentService.addExamResult(studentId, examResultId);
     }
 }
 

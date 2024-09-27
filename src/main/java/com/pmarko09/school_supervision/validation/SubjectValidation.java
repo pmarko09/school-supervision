@@ -11,9 +11,6 @@ public class SubjectValidation {
         if (subject.getName() == null || subject.getName().isEmpty()) {
             throw new IllegalSubjectDataException("Subject name can't be null");
         }
-        if (subject.getTeacher() == null) {
-            throw new IllegalSubjectDataException("Subject's teacher can't be null");
-        }
     }
 
     public static Subject subjectExists(SubjectRepository subjectRepository, Long id) {

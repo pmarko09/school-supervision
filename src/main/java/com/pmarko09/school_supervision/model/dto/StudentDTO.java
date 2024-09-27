@@ -1,6 +1,5 @@
 package com.pmarko09.school_supervision.model.dto;
 
-import com.pmarko09.school_supervision.model.entity.SchoolClass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +18,6 @@ public class StudentDTO {
     private String email;
     private Long schoolClassId;
     private Set<Long> subjectIds;
+    private Set<Long> examResultsIds;
 
 }
