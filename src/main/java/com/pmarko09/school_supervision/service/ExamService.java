@@ -1,6 +1,5 @@
 package com.pmarko09.school_supervision.service;
 
-import com.pmarko09.school_supervision.exception.exam.ExamNotFoundException;
 import com.pmarko09.school_supervision.mapper.ExamMapper;
 import com.pmarko09.school_supervision.model.dto.ExamDTO;
 import com.pmarko09.school_supervision.model.entity.Exam;
@@ -9,12 +8,9 @@ import com.pmarko09.school_supervision.repository.ExamRepository;
 import com.pmarko09.school_supervision.repository.SubjectRepository;
 import com.pmarko09.school_supervision.validation.ExamValidation;
 import com.pmarko09.school_supervision.validation.SubjectValidation;
-import jakarta.el.ELManager;
 import lombok.RequiredArgsConstructor;
-import org.apache.naming.EjbRef;
 import org.springframework.stereotype.Service;
 
-import javax.xml.stream.events.EndDocument;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -60,6 +56,9 @@ public class ExamService {
         Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
 
         exam.setSubject(subject);
+        subject.getExams().add(exam);
+        subjectRepository.save(subject);
+
         return examMapper.toDto(examRepository.save(exam));
     }
 }

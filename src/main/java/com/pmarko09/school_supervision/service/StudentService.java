@@ -1,13 +1,12 @@
 package com.pmarko09.school_supervision.service;
 
-import com.fasterxml.jackson.databind.BeanProperty;
 import com.pmarko09.school_supervision.exception.student.IllegalStudentDataException;
-import com.pmarko09.school_supervision.exception.student.StudentNotFoundException;
 import com.pmarko09.school_supervision.mapper.StudentMapper;
 import com.pmarko09.school_supervision.model.dto.StudentDTO;
 import com.pmarko09.school_supervision.model.entity.SchoolClass;
 import com.pmarko09.school_supervision.model.entity.Student;
 import com.pmarko09.school_supervision.model.entity.Subject;
+import com.pmarko09.school_supervision.repository.ExamRepository;
 import com.pmarko09.school_supervision.repository.SchoolClassRepository;
 import com.pmarko09.school_supervision.repository.StudentRepository;
 import com.pmarko09.school_supervision.repository.SubjectRepository;
@@ -17,9 +16,6 @@ import com.pmarko09.school_supervision.validation.SubjectValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,6 +26,7 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final SchoolClassRepository schoolClassRepository;
     private final SubjectRepository subjectRepository;
+    private final ExamRepository examRepository;
     private final StudentMapper studentMapper;
 
     public Set<StudentDTO> getStudents() {
@@ -91,4 +88,13 @@ public class StudentService {
 
         return studentMapper.toDto(student);
     }
+
+//    public StudentDTO addExam(Long studentId, Long examId) {
+//        Student student = StudentValidation.studentExists(studentRepository, studentId);
+//        Exam exam = ExamValidation.examExists(examRepository, examId);
+//
+//        student.getSubjects().stream()
+//                .map(subject -> subject.getExams())
+//                .forEach();
+//    }
 }

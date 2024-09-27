@@ -10,15 +10,15 @@ import org.mapstruct.Named;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface SchoolClassMapper {
 
     @Mapping(source = "students", target = "studentsIds", qualifiedByName = "mapStudentsToStudentsIds")
     SchoolClassDTO toDto(SchoolClass schoolClass);
 
     @Named("mapStudentsToStudentsIds")
-    default Set<Long> mapStudentsToStudentsIds(SchoolClass schoolClass) {
-        return schoolClass.getStudents().stream()
+    default Set<Long> mapStudentsToStudentsIds(Set<Student> students) {
+        return students.stream()
                 .map(Student::getId)
                 .collect(Collectors.toSet());
     }

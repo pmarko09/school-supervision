@@ -1,6 +1,5 @@
 package com.pmarko09.school_supervision.controller;
 
-import com.fasterxml.jackson.core.PrettyPrinter;
 import com.pmarko09.school_supervision.model.dto.TeacherDTO;
 import com.pmarko09.school_supervision.model.entity.Teacher;
 import com.pmarko09.school_supervision.service.TeacherService;
@@ -41,10 +40,8 @@ public class TeacherController {
         return teacherService.deleteTeacher(id);
     }
 
-//    @PostMapping("/{teacherId}/subject/{subjectId}")
-//    public TeacherDTO assignTeacherToSubject(@PathVariable Long teacherId, @PathVariable Long subjectId) {
-//        return
-//    }
-
-
+    @PostMapping("/{teacherId}/subject/{subjectId}")
+    public TeacherDTO assignTeacherToSubject(@PathVariable Long teacherId, @PathVariable Long subjectId) {
+        return teacherService.assignTeacherToSubject(teacherId, subjectId);
+    }
 }

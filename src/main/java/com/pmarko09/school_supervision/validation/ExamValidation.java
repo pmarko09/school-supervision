@@ -11,9 +11,6 @@ public class ExamValidation {
         if (exam.getGrade() == null) {
             throw new IllegalExamDataException("Exam's grade can't be null");
         }
-        if (exam.getSubject() == null) {
-            throw new IllegalExamDataException("Exam's subject can't be null");
-        }
     }
 
     public static Exam examExists(ExamRepository examRepository, Long id) {

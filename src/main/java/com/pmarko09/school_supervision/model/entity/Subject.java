@@ -3,10 +3,8 @@ package com.pmarko09.school_supervision.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.mapstruct.Mapping;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,11 +23,11 @@ public class Subject {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    @OneToMany(mappedBy = "subject")
-    private Set<Exam> exams = new HashSet<>();                //do tego chyba odrebna metoda w mapperze
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.PERSIST)
+    private Set<Exam> exams = new HashSet<>();
 
-    @ManyToMany(mappedBy = "subjects")
-    private Set<Student> students = new HashSet<>();            // rowniez
+    @ManyToMany(mappedBy = "subjects", cascade = CascadeType.PERSIST)
+    private Set<Student> students = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

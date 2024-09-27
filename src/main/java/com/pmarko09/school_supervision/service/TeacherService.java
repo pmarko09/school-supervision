@@ -1,10 +1,12 @@
 package com.pmarko09.school_supervision.service;
 
-import com.pmarko09.school_supervision.exception.teacher.TeacherNotFoundException;
 import com.pmarko09.school_supervision.mapper.TeacherMapper;
 import com.pmarko09.school_supervision.model.dto.TeacherDTO;
+import com.pmarko09.school_supervision.model.entity.Subject;
 import com.pmarko09.school_supervision.model.entity.Teacher;
+import com.pmarko09.school_supervision.repository.SubjectRepository;
 import com.pmarko09.school_supervision.repository.TeacherRepository;
+import com.pmarko09.school_supervision.validation.SubjectValidation;
 import com.pmarko09.school_supervision.validation.TeacherValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
+    private final SubjectRepository subjectRepository;
     private final TeacherMapper teacherMapper;
 
     public Set<TeacherDTO> getAllTeachers() {
@@ -46,5 +49,15 @@ public class TeacherService {
         Teacher teacher = TeacherValidation.teacherExists(teacherRepository, id);
         teacherRepository.delete(teacher);
         return teacherMapper.toDto(teacher);
+    }
+
+    public TeacherDTO assignTeacherToSubject(Long teacherId, Long subjectId) {
+        Teacher teacher = TeacherValidation.teacherExists(teacherRepository, teacherId);
+        Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
+
+        teacher.setSubject(subject);
+        subject.setTeacher(teacher);
+
+        return teacherMapper.toDto(teacherRepository.save(teacher));
     }
 }
