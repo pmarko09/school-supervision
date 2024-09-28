@@ -64,6 +64,9 @@ public class SubjectService {
         Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
         Teacher teacher = TeacherValidation.teacherExists(teacherRepository, teacherId);
 
+        SubjectValidation.validateSubjectData(subject);
+        TeacherValidation.validateTeacherData(teacher);
+
         subject.setTeacher(teacher);
         teacher.setSubject(subject);
 
@@ -74,6 +77,9 @@ public class SubjectService {
         Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
         Exam exam = ExamValidation.examExists(examRepository, examId);
 
+        ExamValidation.validateExamData(exam);
+        SubjectValidation.thisExamAlreadyAssigned(subject, exam);
+
         subject.getExams().add(exam);
         exam.setSubject(subject);
 
@@ -83,6 +89,8 @@ public class SubjectService {
     public SubjectDTO addStudentToSubject(Long subjectId, Long studentId) {
         Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
         Student student = StudentValidation.studentExists(studentRepository, studentId);
+
+        SubjectValidation.thisStudentAlreadyAssigned(subject, student);
 
         subject.getStudents().add(student);
         student.getSubjects().add(subject);

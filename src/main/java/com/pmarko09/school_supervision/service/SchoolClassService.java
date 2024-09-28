@@ -1,13 +1,10 @@
 package com.pmarko09.school_supervision.service;
-
-import com.pmarko09.school_supervision.exception.schoolClass.SchoolClassNotFoundException;
 import com.pmarko09.school_supervision.mapper.SchoolClassMapper;
 import com.pmarko09.school_supervision.model.dto.SchoolClassDTO;
 import com.pmarko09.school_supervision.model.entity.SchoolClass;
 import com.pmarko09.school_supervision.model.entity.Student;
 import com.pmarko09.school_supervision.repository.SchoolClassRepository;
 import com.pmarko09.school_supervision.repository.StudentRepository;
-import com.pmarko09.school_supervision.repository.SubjectRepository;
 import com.pmarko09.school_supervision.validation.SchoolClassValidation;
 import com.pmarko09.school_supervision.validation.StudentValidation;
 import lombok.RequiredArgsConstructor;
@@ -61,8 +58,8 @@ public class SchoolClassService {
                 .collect(Collectors.toSet());
 
         students.forEach(student -> {
+            SchoolClassValidation.studentInThisSchoolClass(student, schoolClassId);
             student.setSchoolClass(schoolClass);
-            studentRepository.save(student);
         });
 
         schoolClass.setStudents(students);

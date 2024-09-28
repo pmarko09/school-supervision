@@ -55,10 +55,10 @@ public class Teacher {
     }
 
     public static void update(Teacher teacher, Teacher updateTeacher) {
-        updateTeacher.setFirstname(teacher.getFirstname());
-        updateTeacher.setLastname(teacher.getLastname());
-        updateTeacher.setEmail(teacher.getEmail());
-        updateTeacher.setPassword(teacher.getPassword());
-        updateTeacher.setSubject(teacher.getSubject());
+        teacher.setFirstname(updateTeacher.getFirstname());
+        teacher.setLastname(updateTeacher.getLastname());
+        teacher.setEmail(updateTeacher.getEmail());
+        teacher.setPassword(updateTeacher.getPassword());
+        teacher.setSubject(updateTeacher.getSubject());
     }
 }

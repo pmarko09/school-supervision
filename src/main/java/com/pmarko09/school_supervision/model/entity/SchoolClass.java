@@ -20,7 +20,7 @@ public class SchoolClass {
     private Integer number;
     private String name;
 
-    @OneToMany(mappedBy = "schoolClass", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "schoolClass", cascade = CascadeType.ALL)
     private Set<Student> students = new HashSet<>();
 
     @Override

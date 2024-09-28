@@ -33,8 +33,8 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
     private Set<Subject> subjects = new HashSet<>();
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.PERSIST)
-    private Set<ExamResult> examResults;
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    private Set<ExamResult> examResults = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -72,12 +72,12 @@ public class Student {
     }
 
     public static void update(Student student, Student updatedStudent) {
-        updatedStudent.setFirstname(student.getFirstname());
-        updatedStudent.setLastname(student.getLastname());
-        updatedStudent.setCardNumber(student.getCardNumber());
-        updatedStudent.setEmail(student.getEmail());
-        updatedStudent.setPassword(student.getPassword());
-        updatedStudent.setSchoolClass(student.getSchoolClass());
-        updatedStudent.setSubjects(student.getSubjects());
+        student.setFirstname(updatedStudent.getFirstname());
+        student.setLastname(updatedStudent.getLastname());
+        student.setCardNumber(updatedStudent.getCardNumber());
+        student.setEmail(updatedStudent.getEmail());
+        student.setPassword(updatedStudent.getPassword());
+        student.setSchoolClass(updatedStudent.getSchoolClass());
+        student.setSubjects(updatedStudent.getSubjects());
     }
 }

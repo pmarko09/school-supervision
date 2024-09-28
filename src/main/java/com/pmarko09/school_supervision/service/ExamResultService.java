@@ -59,6 +59,8 @@ public class ExamResultService {
         ExamResult examResult = ExamResultValidation.examResultExists(examResultRepository, examResultId);
         Student student = StudentValidation.studentExists(studentRepository, studentId);
 
+        ExamResultValidation.validateExamResultData(examResult);
+
         examResult.setStudent(student);
         studentRepository.save(student);
         return examResultMapper.toDto(examResultRepository.save(examResult));
@@ -68,10 +70,11 @@ public class ExamResultService {
         ExamResult examResult = ExamResultValidation.examResultExists(examResultRepository, examResultId);
         Exam exam = ExamValidation.examExists(examRepository, examId);
 
+        ExamValidation.validateExamData(exam);
+        ExamResultValidation.validateExamResultData(examResult);
+
         examResult.setExam(exam);
         exam.setExamResult(examResult);
-
-        examRepository.save(exam);
 
         return examResultMapper.toDto(examResultRepository.save(examResult));
     }
