@@ -1,6 +1,5 @@
 package com.pmarko09.school_supervision.service;
 
-import com.pmarko09.school_supervision.exception.student.IllegalStudentDataException;
 import com.pmarko09.school_supervision.mapper.StudentMapper;
 import com.pmarko09.school_supervision.model.dto.StudentDTO;
 import com.pmarko09.school_supervision.model.entity.ExamResult;
@@ -64,9 +63,7 @@ public class StudentService {
         Student student = StudentValidation.studentExists(studentRepository, studentId);
         SchoolClass schoolClass = SchoolClassValidation.schoolClassExists(schoolClassRepository, schoolClassId);
 
-        if (student.getSchoolClass() != null && student.getSchoolClass().getId().equals(schoolClassId)) {
-            throw new IllegalStudentDataException("Student is already assigned to this school class.");
-        }
+        StudentValidation.schoolAlreadyAssigned(student, schoolClassId);
 
         student.setSchoolClass(schoolClass);
         schoolClass.getStudents().add(student);
@@ -79,9 +76,7 @@ public class StudentService {
         Student student = StudentValidation.studentExists(studentRepository, studentId);
         Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
 
-        if (student.getSubjects().contains(subject)) {
-            throw new IllegalStudentDataException("Student has already been assigned this subject.");
-        }
+        StudentValidation.thisSubjectAlreadyAssigned(student, subject);
 
         student.getSubjects().add(subject);
         subject.getStudents().add(student);
@@ -94,6 +89,9 @@ public class StudentService {
     public StudentDTO addExamResult(Long studentId, Long examResultId) {
         Student student = StudentValidation.studentExists(studentRepository, studentId);
         ExamResult examResult = ExamResultValidation.examResultExists(examResultRepository, examResultId);
+
+        ExamResultValidation.validateExamResultData(examResult);
+        StudentValidation.thisExamResultAlreadyAssigned(student, examResult);
 
         student.getExamResults().add(examResult);
         examResult.setStudent(student);

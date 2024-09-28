@@ -23,10 +23,10 @@ public class Subject {
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     private Set<Exam> exams = new HashSet<>();
 
-    @ManyToMany(mappedBy = "subjects", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "subjects", cascade = CascadeType.ALL)
     private Set<Student> students = new HashSet<>();
 
     @Override
@@ -61,9 +61,9 @@ public class Subject {
     }
 
     public static void update(Subject subject, Subject updatedSubject) {
-        updatedSubject.setName(subject.getName());
-        updatedSubject.setTeacher(subject.getTeacher());
-        updatedSubject.setExams(subject.getExams());
-        updatedSubject.setStudents(subject.getStudents());
+        subject.setName(updatedSubject.getName());
+        subject.setTeacher(updatedSubject.getTeacher());
+        subject.setExams(updatedSubject.getExams());
+        subject.setStudents(updatedSubject.getStudents());
     }
 }

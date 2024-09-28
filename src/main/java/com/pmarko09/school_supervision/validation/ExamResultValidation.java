@@ -11,6 +11,12 @@ public class ExamResultValidation {
         if (examResult.getGrade() == null) {
             throw new IllegalExamResultDataException("Exam result must have grade");
         }
+        if (examResult.getExam() != null) {
+            throw new IllegalExamResultDataException("Exam is already assigned to the exam result.");
+        }
+        if (examResult.getStudent() != null) {
+            throw new IllegalExamResultDataException("This exam result is already assigned to the student.");
+        }
     }
 
     public static ExamResult examResultExists(ExamResultRepository examResultRepository, Long id) {

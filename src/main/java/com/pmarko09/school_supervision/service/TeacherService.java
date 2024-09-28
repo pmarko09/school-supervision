@@ -55,6 +55,9 @@ public class TeacherService {
         Teacher teacher = TeacherValidation.teacherExists(teacherRepository, teacherId);
         Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
 
+        TeacherValidation.validateTeacherData(teacher);
+        SubjectValidation.validateSubjectData(subject);
+
         teacher.setSubject(subject);
         subject.setTeacher(teacher);
 

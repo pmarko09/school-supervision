@@ -41,12 +41,12 @@ public class ExamResultController {
     }
 
     @PostMapping("/{examResultId}/student/{studentId}")
-    public ExamResultDTO addStudentToExam(@PathVariable Long examResultId, @PathVariable Long studentId) {
+    public ExamResultDTO addStudentToExamResult(@PathVariable Long examResultId, @PathVariable Long studentId) {
         return examResultService.assignExamResultToStudent(examResultId, studentId);
     }
 
     @PostMapping("/{examResultId}/exam/{examId}")
-    public ExamResultDTO addExamResultToExam(@PathVariable Long examResultId, @PathVariable Long examId) {
+    public ExamResultDTO addExamResultToExamResult(@PathVariable Long examResultId, @PathVariable Long examId) {
         return examResultService.assignExamResultToExam(examResultId, examId);
     }
 }
