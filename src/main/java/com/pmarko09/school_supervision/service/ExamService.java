@@ -34,7 +34,7 @@ public class ExamService {
 
     public ExamDTO getExam(Long id) {
         Exam exam = ExamValidation.examExists(examRepository, id);
-        return examMapper.toDto(examRepository.save(exam));
+        return examMapper.toDto(exam);
     }
 
     public ExamDTO addExam(Exam exam) {

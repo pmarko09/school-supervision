@@ -30,7 +30,7 @@ public class TeacherService {
 
     public TeacherDTO getTeacher(Long id) {
         Teacher teacher = TeacherValidation.teacherExists(teacherRepository, id);
-        return teacherMapper.toDto(teacherRepository.save(teacher));
+        return teacherMapper.toDto(teacher);
     }
 
     public TeacherDTO addTeacher(Teacher teacher) {
