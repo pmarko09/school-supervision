@@ -59,7 +59,6 @@ public class ExamService {
         Exam exam = ExamValidation.examExists(examRepository, examId);
         Subject subject = SubjectValidation.subjectExists(subjectRepository, subjectId);
 
-        ExamValidation.validateExamData(exam);
         ExamValidation.thisExamHasSubject(subject, exam);
 
         exam.setSubject(subject);

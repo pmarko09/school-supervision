@@ -59,7 +59,7 @@ public class ExamResultService {
         ExamResult examResult = ExamResultValidation.examResultExists(examResultRepository, examResultId);
         Student student = StudentValidation.studentExists(studentRepository, studentId);
 
-        ExamResultValidation.validateExamResultData(examResult);
+        ExamResultValidation.thisExamResultHasStudentAlready(examResult, student);
 
         examResult.setStudent(student);
         studentRepository.save(student);

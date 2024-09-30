@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ExamResultDTO {
 
+    private Long examResultId;
     private Long studentId;
     private Long examId;
     private Double grade;
