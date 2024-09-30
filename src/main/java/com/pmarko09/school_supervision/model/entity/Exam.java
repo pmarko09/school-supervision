@@ -23,7 +23,6 @@ public class Exam {
     @JoinColumn(name = "examResult_id")
     private ExamResult examResult;
 
-    private Double grade;
     private LocalDateTime time;
 
     @Override
@@ -52,14 +51,12 @@ public class Exam {
         return "Exam{" +
                 "id=" + id +
                 ", subject=" + subject.getId() +
-                ", grade=" + grade +
                 ", time=" + time +
                 '}';
     }
 
     public static void update(Exam exam, Exam updatedExam) {
         exam.setSubject(updatedExam.getSubject());
-        exam.setGrade(updatedExam.getGrade());
         exam.setTime(updatedExam.getTime());
     }
 }

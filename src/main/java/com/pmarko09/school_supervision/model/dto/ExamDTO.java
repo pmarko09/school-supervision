@@ -14,7 +14,6 @@ public class ExamDTO {
     private Long id;
     private Long subjectId;
     private Long examResultId;
-    private Double grade;
     private LocalDateTime time;
 
 }
