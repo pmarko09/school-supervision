@@ -39,7 +39,7 @@ public class SubjectService {
 
     public SubjectDTO getSubject(Long id) {
         Subject subject = SubjectValidation.subjectExists(subjectRepository, id);
-        return subjectMapper.toDto(subjectRepository.save(subject));
+        return subjectMapper.toDto(subject);
     }
 
     public SubjectDTO addSubject(Subject subject) {
