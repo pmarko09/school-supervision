@@ -90,7 +90,6 @@ public class StudentService {
         Student student = StudentValidation.studentExists(studentRepository, studentId);
         ExamResult examResult = ExamResultValidation.examResultExists(examResultRepository, examResultId);
 
-        ExamResultValidation.validateExamResultData(examResult);
         StudentValidation.thisExamResultAlreadyAssigned(student, examResult);
 
         student.getExamResults().add(examResult);

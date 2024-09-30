@@ -46,8 +46,7 @@ public class ExamController {
     }
 
     @PostMapping("/{examId}/examResult/{examResultId}")
-    public ExamDTO assignExamResult(Long examId, Long examResultId) {
+    public ExamDTO assignExamResult(@PathVariable Long examId, @PathVariable Long examResultId) {
         return examService.assignExamResult(examId, examResultId);
     }
-
 }

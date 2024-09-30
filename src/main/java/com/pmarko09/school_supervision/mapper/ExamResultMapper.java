@@ -11,6 +11,7 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring")
 public interface ExamResultMapper {
 
+    @Mapping(source = "examResult.id", target = "examResultId")
     @Mapping(source = "student", target = "studentId", qualifiedByName = "mapStudentToStudentId")
     @Mapping(source = "exam", target = "examId", qualifiedByName = "mapExamToExamId")
     ExamResultDTO toDto(ExamResult examResult);
