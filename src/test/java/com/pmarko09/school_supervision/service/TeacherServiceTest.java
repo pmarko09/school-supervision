@@ -8,6 +8,8 @@ import com.pmarko09.school_supervision.model.entity.Subject;
 import com.pmarko09.school_supervision.model.entity.Teacher;
 import com.pmarko09.school_supervision.repository.SubjectRepository;
 import com.pmarko09.school_supervision.repository.TeacherRepository;
+import com.pmarko09.school_supervision.validation.SubjectValidation;
+import com.pmarko09.school_supervision.validation.TeacherValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -94,6 +96,7 @@ public class TeacherServiceTest {
         teacher.setEmail("A@");
         teacher.setPassword("123");
 
+        TeacherValidation.validateTeacherData(teacher);
         when(teacherRepository.save(any())).thenReturn(teacher);
         teacherMapper.toDto(teacher);
 
@@ -127,7 +130,9 @@ public class TeacherServiceTest {
         updatedTeacher.setPassword("123");
 
         when(teacherRepository.findById(id)).thenReturn(Optional.of(teacher));
-        when(teacherRepository.save(any())).thenReturn(updatedTeacher);
+        TeacherValidation.validateTeacherData(updatedTeacher);
+        Teacher.update(teacher, updatedTeacher);
+        when(teacherRepository.save(any())).thenReturn(teacher);
         teacherMapper.toDto(teacher);
 
         //when
@@ -186,13 +191,20 @@ public class TeacherServiceTest {
 
         when(teacherRepository.findById(2L)).thenReturn(Optional.of(teacher));
         when(subjectRepository.findById(1L)).thenReturn(Optional.of(subject));
+        TeacherValidation.validateTeacherData(teacher);
+        SubjectValidation.validateSubjectData(subject);
         when(teacherRepository.save(any())).thenReturn(teacher);
-        teacherMapper.toDto(teacher);
+
+        TeacherDTO teacherDTO = teacherMapper.toDto(teacher);
+        teacherDTO.setSubjectId(subject.getId());
 
         //when
         TeacherDTO result = teacherService.assignTeacherToSubject(2L, 1L);
 
         //then
-        assertEquals(1L, result.getSubjectId());
+        assertEquals(teacherDTO.getSubjectId(), result.getSubjectId());
+        assertEquals(teacherDTO.getFirstname(), result.getFirstname());
+        assertEquals(teacherDTO.getLastname(), result.getLastname());
+        assertEquals(teacherDTO.getEmail(), result.getEmail());
     }
 }
