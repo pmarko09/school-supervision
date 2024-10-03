@@ -1,4 +1,5 @@
 package com.pmarko09.school_supervision.service;
+
 import com.pmarko09.school_supervision.mapper.SchoolClassMapper;
 import com.pmarko09.school_supervision.model.dto.SchoolClassDTO;
 import com.pmarko09.school_supervision.model.entity.SchoolClass;
@@ -10,6 +11,7 @@ import com.pmarko09.school_supervision.validation.StudentValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,10 +23,10 @@ public class SchoolClassService {
     private final StudentRepository studentRepository;
     private final SchoolClassMapper schoolClassMapper;
 
-    public Set<SchoolClassDTO> getAllSchoolClasses() {
+    public List<SchoolClassDTO> getAllSchoolClasses() {
         return schoolClassRepository.findAll().stream()
                 .map(schoolClassMapper::toDto)
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     public SchoolClassDTO getSchoolClass(Long id) {
@@ -50,18 +52,13 @@ public class SchoolClassService {
         return schoolClassMapper.toDto(schoolClass);
     }
 
-    public SchoolClassDTO assignSchoolClassToStudents(Long schoolClassId, Set<Long> studentsIds) {
+    public SchoolClassDTO assignSchoolClassToStudents(Long schoolClassId, Long studentId) {
         SchoolClass schoolClass = SchoolClassValidation.schoolClassExists(schoolClassRepository, schoolClassId);
+        Student student = StudentValidation.studentExists(studentRepository, studentId);
 
-        Set<Student> students = studentsIds.stream()
-                .map(studentId -> StudentValidation.studentExists(studentRepository, studentId))
-                .collect(Collectors.toSet());
+        SchoolClassValidation.studentInThisSchoolClass(student, schoolClassId);
 
-        students.forEach(student -> {
-            SchoolClassValidation.studentInThisSchoolClass(student, schoolClassId);
-            student.setSchoolClass(schoolClass);
-        });
-
+        Set<Student> students = Set.of(student);
         schoolClass.setStudents(students);
         schoolClassRepository.save(schoolClass);
 

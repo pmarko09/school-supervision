@@ -6,6 +6,7 @@ import com.pmarko09.school_supervision.service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -16,7 +17,7 @@ public class TeacherController {
     private final TeacherService teacherService;
 
     @GetMapping
-    public Set<TeacherDTO> getTeachers() {
+    public List<TeacherDTO> getTeachers() {
         return teacherService.getAllTeachers();
     }
 

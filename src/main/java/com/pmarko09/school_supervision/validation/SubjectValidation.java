@@ -6,7 +6,10 @@ import com.pmarko09.school_supervision.model.entity.Exam;
 import com.pmarko09.school_supervision.model.entity.Student;
 import com.pmarko09.school_supervision.model.entity.Subject;
 import com.pmarko09.school_supervision.repository.SubjectRepository;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SubjectValidation {
 
     public static void validateSubjectData(Subject subject) {

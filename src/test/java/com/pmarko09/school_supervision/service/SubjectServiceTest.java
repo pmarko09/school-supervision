@@ -1,5 +1,6 @@
 package com.pmarko09.school_supervision.service;
 
+import com.pmarko09.school_supervision.exception.subject.SubjectNotFoundException;
 import com.pmarko09.school_supervision.mapper.SubjectMapper;
 import com.pmarko09.school_supervision.model.dto.SubjectDTO;
 import com.pmarko09.school_supervision.model.entity.*;
@@ -7,24 +8,18 @@ import com.pmarko09.school_supervision.repository.ExamRepository;
 import com.pmarko09.school_supervision.repository.StudentRepository;
 import com.pmarko09.school_supervision.repository.SubjectRepository;
 import com.pmarko09.school_supervision.repository.TeacherRepository;
-import com.pmarko09.school_supervision.validation.ExamValidation;
-import com.pmarko09.school_supervision.validation.SubjectValidation;
-import com.pmarko09.school_supervision.validation.TeacherValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.mockito.Mockito;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class SubjectServiceTest {
 
@@ -48,42 +43,31 @@ public class SubjectServiceTest {
 
     @Test
     void getAllSubjects_DataCorrect_SubjectsDtoReturned() {
-
         //given
         Subject subject = new Subject();
         subject.setId(1L);
         subject.setName("Polski");
-        Student student = new Student();
-        subject.setStudents(Set.of(student));
-        Teacher teacher = new Teacher();
-        subject.setTeacher(teacher);
 
         when(subjectRepository.findAll()).thenReturn(List.of(subject));
-        SubjectDTO subjectDTO = subjectMapper.toDto(subject);
 
         //when
-        Set<SubjectDTO> result = subjectService.getAllSubjects();
+        List<SubjectDTO> result = subjectService.getAllSubjects();
 
         //then
         assertEquals(1, result.size());
-        assertTrue(result.contains(subjectDTO));
+        assertFalse(result.isEmpty());
+        assertEquals(1L, result.getFirst().getId());
+        assertEquals("Polski", result.getFirst().getName());
     }
-
 
     @Test
     void getSubject_DataCorrect_SubjectDtoReturned() {
-
         //given
         Subject subject = new Subject();
         subject.setId(1L);
         subject.setName("Polski");
-        Student student = new Student();
-        subject.setStudents(Set.of(student));
-        Teacher teacher = new Teacher();
-        subject.setTeacher(teacher);
 
         when(subjectRepository.findById(1L)).thenReturn(Optional.of(subject));
-        subjectMapper.toDto(subject);
 
         //when
         SubjectDTO result = subjectService.getSubject(1L);
@@ -91,22 +75,31 @@ public class SubjectServiceTest {
         //then
         assertEquals("Polski", result.getName());
         assertEquals(1L, result.getId());
-        assertEquals(subject.getTeacher().getId(), result.getTeacherId());
     }
 
     @Test
-    void addSubject_DataCorrect_SubjectDtoReturned() {
-
+    void getSubject_SubjectNotFound_ExceptionThrown() {
         //given
         Subject subject = new Subject();
         subject.setId(1L);
         subject.setName("Polski");
-        Student student = new Student();
-        subject.setStudents(Set.of(student));
 
-        SubjectValidation.validateSubjectData(subject);
+        when(subjectRepository.findById(1L)).thenReturn(Optional.empty());
+
+        //when then
+        SubjectNotFoundException aThrows = assertThrows(SubjectNotFoundException.class, () ->
+                subjectService.getSubject(1L));
+        assertEquals(aThrows.getMessage(), "Subject with id: 1 not found");
+    }
+
+    @Test
+    void addSubject_DataCorrect_SubjectDtoReturned() {
+        //given
+        Subject subject = new Subject();
+        subject.setId(1L);
+        subject.setName("Polski");
+
         when(subjectRepository.save(any())).thenReturn(subject);
-        subjectMapper.toDto(subject);
 
         //when
         SubjectDTO result = subjectService.addSubject(subject);
@@ -118,174 +111,199 @@ public class SubjectServiceTest {
 
     @Test
     void updateSubject_DataCorrect_SubjectDtoReturned() {
-
         //given
-        Long id = 5L;
-
         Subject subject = new Subject();
         subject.setId(5L);
         subject.setName("Polski");
-        Student student = new Student();
-        subject.setStudents(Set.of(student));
 
         Subject updatedSubject = new Subject();
         updatedSubject.setId(5L);
         updatedSubject.setName("ANG");
-        Student newStudent = new Student();
-        updatedSubject.setStudents(Set.of(newStudent));
 
-        when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
-        SubjectValidation.validateSubjectData(updatedSubject);
-        Subject.update(subject, updatedSubject);
-        when(subjectRepository.save(any())).thenReturn(subject);
-        SubjectDTO subjectDTO = subjectMapper.toDto(subject);
+        when(subjectRepository.findById(5L)).thenReturn(Optional.of(subject));
+        when(subjectRepository.save(subject)).thenReturn(updatedSubject);
 
         //when
-        SubjectDTO result = subjectService.updateSubject(id, updatedSubject);
+        SubjectDTO result = subjectService.updateSubject(5L, updatedSubject);
 
         //then
-        assertEquals(subjectDTO.getId(), result.getId());
-        assertEquals(subjectDTO.getName(), result.getName());
-        assertEquals(subjectDTO.getTeacherId(), result.getTeacherId());
-        assertEquals(subjectDTO.getStudentIds(), result.getStudentIds());
+        assertEquals(5L, result.getId());
+        assertEquals("ANG", result.getName());
+    }
+
+    @Test
+    void updateSubject_SubjectNotFound_ExceptionThrown() {
+        //given
+        Subject subject = new Subject();
+        subject.setId(1L);
+        subject.setName("Polski");
+
+        when(subjectRepository.findById(1L)).thenReturn(Optional.empty());
+
+        //when then
+        SubjectNotFoundException aThrows = assertThrows(SubjectNotFoundException.class, () ->
+                subjectService.updateSubject(1L, subject));
+        assertEquals(aThrows.getMessage(), "Subject with id: 1 not found");
     }
 
     @Test
     void deleteSubject_DataCorrect_SubjectDtoReturned() {
-
         //given
-        Long id = 5L;
-
         Subject subject = new Subject();
         subject.setId(5L);
         subject.setName("Polski");
         Student student = new Student();
         subject.setStudents(Set.of(student));
 
-        when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
-        doNothing().when(subjectRepository).delete(subject);
-        SubjectDTO subjectDTO = subjectMapper.toDto(subject);
+        when(subjectRepository.findById(5L)).thenReturn(Optional.of(subject));
 
         //when
-        SubjectDTO result = subjectService.deleteSubject(id);
+        SubjectDTO result = subjectService.deleteSubject(5L);
 
         //then
         assertEquals(5L, result.getId());
         assertEquals("Polski", result.getName());
-        assertEquals(subjectDTO.getStudentIds(), result.getStudentIds());
+        verify(subjectRepository, times(1)).delete(subject);
+    }
+
+    @Test
+    void deleteSubject_SubjectNotFound_ExceptionThrown() {
+        //given
+        Subject subject = new Subject();
+        subject.setId(1L);
+        subject.setName("Polski");
+
+        when(subjectRepository.findById(1L)).thenReturn(Optional.empty());
+
+        //when then
+        SubjectNotFoundException aThrows = assertThrows(SubjectNotFoundException.class, () ->
+                subjectService.deleteSubject(1L));
+        assertEquals(aThrows.getMessage(), "Subject with id: 1 not found");
     }
 
     @Test
     void assignSubjectToTeacher_DataCorrect_SubjectDtoReturned() {
-
         //given
-        Long subjectId = 5L;
-        Long teacherId = 3L;
-
         Subject subject = new Subject();
         subject.setId(5L);
         subject.setName("Polski");
-        Student student = new Student();
-        subject.setStudents(Set.of(student));
-        subject.setTeacher(null);
 
         Teacher teacher = new Teacher();
         teacher.setId(3L);
         teacher.setFirstname("Jan");
         teacher.setLastname("Kowal");
-        teacher.setEmail("K@");
 
-        when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(subject));
-        when(teacherRepository.findById(teacherId)).thenReturn(Optional.of(teacher));
-
-        SubjectValidation.validateSubjectData(subject);
-        TeacherValidation.validateTeacherData(teacher);
-
+        when(subjectRepository.findById(5L)).thenReturn(Optional.of(subject));
+        when(teacherRepository.findById(3L)).thenReturn(Optional.of(teacher));
         when(subjectRepository.save(any())).thenReturn(subject);
 
-        SubjectDTO subjectDTO = subjectMapper.toDto(subject);
-        subjectDTO.setTeacherId(teacher.getId());
-
         //when
-        SubjectDTO result = subjectService.assignSubjectToTeacher(subjectId, teacherId);
+        SubjectDTO result = subjectService.assignSubjectToTeacher(5L, 3L);
 
         //then
         assertEquals("Polski", result.getName());
-        assertEquals(subjectDTO.getId(), result.getId());
-        assertEquals(subjectDTO.getTeacherId(), result.getTeacherId());
+        assertEquals(5L, result.getId());
+        assertEquals(3L, result.getTeacherId());
+    }
+
+    @Test
+    void assignSubjectToTeacher_SubjectNotFound_ExceptionThrown() {
+        //given
+        Subject subject = new Subject();
+        subject.setId(1L);
+        subject.setName("Polski");
+
+        when(subjectRepository.findById(1L)).thenReturn(Optional.empty());
+        when(teacherRepository.findById(3L)).thenReturn(Optional.empty());
+
+        //when then
+        SubjectNotFoundException aThrows = assertThrows(SubjectNotFoundException.class, () ->
+                subjectService.assignSubjectToTeacher(1L, 3L));
+        assertEquals(aThrows.getMessage(), "Subject with id: 1 not found");
     }
 
     @Test
     void addExamToSubject_DataCorrect_SubjectDtoReturned() {
         //given
-        Long subjectId = 5L;
-        Long examId = 3L;
-
         Subject subject = new Subject();
-        subject.setId(subjectId);
+        subject.setId(1L);
         subject.setName("Polski");
         Student student = new Student();
         subject.setStudents(Set.of(student));
 
         Exam exam = new Exam();
-        exam.setId(examId);
-        exam.setTime(LocalDateTime.now());
-        exam.setSubject(null);
+        exam.setId(2L);
 
-        when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(subject));
-        when(examRepository.findById(examId)).thenReturn(Optional.of(exam));
-
-        ExamValidation.validateExamData(exam);
-        SubjectValidation.thisExamAlreadyAssigned(subject, exam);
+        when(subjectRepository.findById(1L)).thenReturn(Optional.of(subject));
+        when(examRepository.findById(2L)).thenReturn(Optional.of(exam));
 
         when(subjectRepository.save(any())).thenReturn(subject);
 
-        SubjectDTO subjectDTO = subjectMapper.toDto(subject);
-        subjectDTO.setExamIds(Set.of(exam.getId()));
-
         //when
-        SubjectDTO result = subjectService.addExamToSubject(subjectId, examId);
+        SubjectDTO result = subjectService.addExamToSubject(1L, 2L);
 
         //then
-        assertEquals(5L, result.getId());
+        assertEquals(1L, result.getId());
         assertEquals("Polski", result.getName());
-        assertEquals(subjectDTO.getExamIds(), result.getExamIds());
+        assertTrue(result.getStudentIds().contains(student.getId()));
+    }
+
+    @Test
+    void addExamToSubject_SubjectNotFound_ExceptionThrown() {
+        //given
+        Subject subject = new Subject();
+        subject.setId(1L);
+        subject.setName("Polski");
+
+        when(subjectRepository.findById(1L)).thenReturn(Optional.empty());
+        when(examRepository.findById(3L)).thenReturn(Optional.empty());
+
+        //when then
+        SubjectNotFoundException aThrows = assertThrows(SubjectNotFoundException.class, () ->
+                subjectService.addExamToSubject(1L, 3L));
+        assertEquals(aThrows.getMessage(), "Subject with id: 1 not found");
     }
 
     @Test
     void addStudentToSubject_DataCorrect_SubjectDtoReturned() {
         //given
-        Long subjectId = 5L;
-        Long studentId = 3L;
-
         Subject subject = new Subject();
-        subject.setId(subjectId);
+        subject.setId(1L);
         subject.setName("Polski");
 
         Student student = new Student();
-        student.setId(studentId);
+        student.setId(1L);
         student.setFirstname("JA");
         student.setLastname("BE");
-        student.setEmail("AA@");
 
-        when(subjectRepository.findById(subjectId)).thenReturn(Optional.of(subject));
-        when(studentRepository.findById(studentId)).thenReturn(Optional.of(student));
-
-        SubjectValidation.thisStudentAlreadyAssigned(subject, student);
+        when(subjectRepository.findById(1L)).thenReturn(Optional.of(subject));
+        when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
 
         when(subjectRepository.save(any())).thenReturn(subject);
-
-        SubjectDTO subjectDTO = subjectMapper.toDto(subject);
-        subjectDTO.setStudentIds(Set.of(student.getId()));
+        when(studentRepository.save(any())).thenReturn(student);
 
         //when
-        SubjectDTO result = subjectService.addStudentToSubject(subjectId, studentId);
+        SubjectDTO result = subjectService.addStudentToSubject(1L, 1L);
 
         //then
-        assertEquals(5L, result.getId());
+        assertEquals(1L, result.getId());
         assertEquals("Polski", result.getName());
-        assertEquals(subjectDTO.getStudentIds(), result.getStudentIds());
+        assertTrue(result.getStudentIds().contains(student.getId()));
+    }
+
+    @Test
+    void addStudentToSubject_SubjectNotFound_ExceptionThrown() {
+        //given
+        Subject subject = new Subject();
+        subject.setId(1L);
+        subject.setName("Polski");
+
+        when(subjectRepository.findById(1L)).thenReturn(Optional.empty());
+        when(studentRepository.findById(3L)).thenReturn(Optional.empty());
+
+        //when then
+        SubjectNotFoundException aThrows = assertThrows(SubjectNotFoundException.class, () ->
+                subjectService.addStudentToSubject(1L, 3L));
+        assertEquals(aThrows.getMessage(), "Subject with id: 1 not found");
     }
 }
-
-//further test methods

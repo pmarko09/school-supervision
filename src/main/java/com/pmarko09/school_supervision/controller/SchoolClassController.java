@@ -6,6 +6,7 @@ import com.pmarko09.school_supervision.service.SchoolClassService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -16,7 +17,7 @@ public class SchoolClassController {
     private final SchoolClassService schoolClassService;
 
     @GetMapping
-    public Set<SchoolClassDTO> getAllSchoolClasses() {
+    public List<SchoolClassDTO> getAllSchoolClasses() {
         return schoolClassService.getAllSchoolClasses();
     }
 
@@ -40,8 +41,8 @@ public class SchoolClassController {
         return schoolClassService.deleteSchoolClass(id);
     }
 
-    @PostMapping("/{schoolClassId}/students/{studentsIds}")
-    public SchoolClassDTO assignSchoolClassToStudents(@PathVariable Long schoolClassId, @PathVariable Set<Long> studentsIds) {
-        return schoolClassService.assignSchoolClassToStudents(schoolClassId, studentsIds);
+    @PostMapping("/{schoolClassId}/students/{studentId}")
+    public SchoolClassDTO assignSchoolClassToStudents(@PathVariable Long schoolClassId, @PathVariable Long studentId) {
+        return schoolClassService.assignSchoolClassToStudents(schoolClassId, studentId);
     }
 }

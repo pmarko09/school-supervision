@@ -4,7 +4,10 @@ import com.pmarko09.school_supervision.exception.teacher.IllegalTeacherDataExcep
 import com.pmarko09.school_supervision.exception.teacher.TeacherNotFoundException;
 import com.pmarko09.school_supervision.model.entity.Teacher;
 import com.pmarko09.school_supervision.repository.TeacherRepository;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TeacherValidation {
 
     public static void validateTeacherData(Teacher teacher) {

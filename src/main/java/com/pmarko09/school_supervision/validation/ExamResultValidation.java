@@ -5,7 +5,10 @@ import com.pmarko09.school_supervision.exception.examResult.IllegalExamResultDat
 import com.pmarko09.school_supervision.model.entity.ExamResult;
 import com.pmarko09.school_supervision.model.entity.Student;
 import com.pmarko09.school_supervision.repository.ExamResultRepository;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExamResultValidation {
 
     public static void validateExamResultData(ExamResult examResult) {
