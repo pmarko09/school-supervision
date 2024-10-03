@@ -6,6 +6,7 @@ import com.pmarko09.school_supervision.service.ExamResultService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -16,7 +17,7 @@ public class ExamResultController {
     private final ExamResultService examResultService;
 
     @GetMapping
-    public Set<ExamResultDTO> getAllExamResults() {
+    public List<ExamResultDTO> getAllExamResults() {
         return examResultService.getAllExamResults();
     }
 

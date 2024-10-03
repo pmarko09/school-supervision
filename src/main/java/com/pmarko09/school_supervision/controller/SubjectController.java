@@ -6,6 +6,7 @@ import com.pmarko09.school_supervision.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -16,7 +17,7 @@ public class SubjectController {
     private final SubjectService subjectService;
 
     @GetMapping
-    public Set<SubjectDTO> getAllSubjects() {
+    public List<SubjectDTO> getAllSubjects() {
         return subjectService.getAllSubjects();
     }
 

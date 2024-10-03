@@ -17,8 +17,7 @@ import com.pmarko09.school_supervision.validation.TeacherValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,10 +30,10 @@ public class SubjectService {
     private final StudentRepository studentRepository;
     private final SubjectMapper subjectMapper;
 
-    public Set<SubjectDTO> getAllSubjects() {
+    public List<SubjectDTO> getAllSubjects() {
         return subjectRepository.findAll().stream()
                 .map(subjectMapper::toDto)
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     public SubjectDTO getSubject(Long id) {

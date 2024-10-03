@@ -6,7 +6,7 @@ import com.pmarko09.school_supervision.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RequestMapping("/students")
 @RestController
@@ -16,7 +16,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping
-    public Set<StudentDTO> getStudents() {
+    public List<StudentDTO> getStudents() {
         return studentService.getStudents();
     }
 

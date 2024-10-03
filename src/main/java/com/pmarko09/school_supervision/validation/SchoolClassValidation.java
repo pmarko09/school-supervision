@@ -5,7 +5,10 @@ import com.pmarko09.school_supervision.exception.schoolClass.SchoolClassNotFound
 import com.pmarko09.school_supervision.model.entity.SchoolClass;
 import com.pmarko09.school_supervision.model.entity.Student;
 import com.pmarko09.school_supervision.repository.SchoolClassRepository;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SchoolClassValidation {
 
     public static void validateSchoolClassData(SchoolClass schoolClass) {

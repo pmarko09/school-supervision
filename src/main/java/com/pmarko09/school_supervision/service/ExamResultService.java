@@ -14,6 +14,7 @@ import com.pmarko09.school_supervision.validation.StudentValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,10 +27,10 @@ public class ExamResultService {
     private final ExamRepository examRepository;
     private final ExamResultMapper examResultMapper;
 
-    public Set<ExamResultDTO> getAllExamResults() {
+    public List<ExamResultDTO> getAllExamResults() {
         return examResultRepository.findAll().stream()
                 .map(examResultMapper::toDto)
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     public ExamResultDTO getExamResult(Long id) {
