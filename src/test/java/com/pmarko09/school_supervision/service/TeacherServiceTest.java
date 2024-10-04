@@ -3,14 +3,10 @@ package com.pmarko09.school_supervision.service;
 import com.pmarko09.school_supervision.exception.teacher.TeacherNotFoundException;
 import com.pmarko09.school_supervision.mapper.TeacherMapper;
 import com.pmarko09.school_supervision.model.dto.TeacherDTO;
-import com.pmarko09.school_supervision.model.entity.Exam;
-import com.pmarko09.school_supervision.model.entity.Student;
 import com.pmarko09.school_supervision.model.entity.Subject;
 import com.pmarko09.school_supervision.model.entity.Teacher;
 import com.pmarko09.school_supervision.repository.SubjectRepository;
 import com.pmarko09.school_supervision.repository.TeacherRepository;
-import com.pmarko09.school_supervision.validation.SubjectValidation;
-import com.pmarko09.school_supervision.validation.TeacherValidation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -18,7 +14,6 @@ import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -55,8 +50,8 @@ public class TeacherServiceTest {
         //then
         assertEquals(1, result.size());
         assertFalse(result.isEmpty());
-        assertEquals(1L, result.getFirst().getId());
-        assertEquals("jan", result.getFirst().getFirstname());
+        assertEquals(1L, result.get(0).getId());
+        assertEquals("jan", result.get(0).getFirstname());
     }
 
     @Test
@@ -81,10 +76,6 @@ public class TeacherServiceTest {
     @Test
     void getTeacher_TeacherNotFound_ExceptionThrown() {
         //given
-        Teacher teacher = new Teacher();
-        teacher.setId(1L);
-        teacher.setFirstname("jan");
-        teacher.setLastname("A");
 
         when(teacherRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -178,10 +169,6 @@ public class TeacherServiceTest {
     @Test
     void deleteTeacher_TeacherNotFound_ExceptionThrown() {
         //given
-        Teacher teacher = new Teacher();
-        teacher.setId(1L);
-        teacher.setFirstname("jan");
-        teacher.setLastname("A");
 
         when(teacherRepository.findById(1L)).thenReturn(Optional.empty());
 
@@ -220,10 +207,6 @@ public class TeacherServiceTest {
     @Test
     void assignTeacherToSubject_TeacherNotFound_ExceptionThrown() {
         //given
-        Teacher teacher = new Teacher();
-        teacher.setId(1L);
-        teacher.setFirstname("jan");
-        teacher.setLastname("A");
 
         when(teacherRepository.findById(1L)).thenReturn(Optional.empty());
         when(subjectRepository.findById(1L)).thenReturn(Optional.empty());

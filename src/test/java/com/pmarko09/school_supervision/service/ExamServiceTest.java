@@ -10,7 +10,6 @@ import com.pmarko09.school_supervision.repository.SubjectRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
@@ -52,7 +51,7 @@ public class ExamServiceTest {
         List<ExamDTO> result = examService.getAllExams();
 
         //then
-        assertEquals(1L, result.getFirst().getId());
+        assertEquals(1L, result.get(0).getId());
         assertNotNull(result);
     }
 
@@ -76,9 +75,6 @@ public class ExamServiceTest {
     @Test
     void getExam_ExamNotFound_ExceptionThrown() {
         //given
-        Exam exam = new Exam();
-        exam.setId(1L);
-        exam.setTime(LocalDateTime.now());
 
         when(examRepository.findById(1L)).thenReturn(Optional.empty());
 
