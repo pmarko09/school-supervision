@@ -1,6 +1,5 @@
 package com.pmarko09.school_supervision.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmarko09.school_supervision.model.dto.TeacherDTO;
 import com.pmarko09.school_supervision.model.entity.Teacher;
@@ -106,8 +105,7 @@ public class TeacherControllerTest {
                 .lastname("B")
                 .email("123@")
                 .build();
-//TODO: pytanie o to czemu wpisujac do addTeacher(teacher) nie przechodzilo
-        //TODO: w body w metodzie w kontrolerze mam obiekt typu Teacher i tam nie podaje mu ID, a blad od razu rzucalo, ze nie ma nadanego ID
+
         when(teacherService.addTeacher(any(Teacher.class))).thenReturn(teacherDTO);
 
         //when then
@@ -142,7 +140,7 @@ public class TeacherControllerTest {
                 .build();
 
         when(teacherService.updateTeacher(1L, teacher)).thenReturn(teacherDTO);
-//TODO: to same pytanie, co wyzej
+
         //when then
         mockMvc.perform(
                         MockMvcRequestBuilders.put("/teachers/1")

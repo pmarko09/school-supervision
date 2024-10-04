@@ -56,8 +56,8 @@ public class SubjectServiceTest {
         //then
         assertEquals(1, result.size());
         assertFalse(result.isEmpty());
-        assertEquals(1L, result.getFirst().getId());
-        assertEquals("Polski", result.getFirst().getName());
+        assertEquals(1L, result.get(0).getId());
+        assertEquals("Polski", result.get(0).getName());
     }
 
     @Test
