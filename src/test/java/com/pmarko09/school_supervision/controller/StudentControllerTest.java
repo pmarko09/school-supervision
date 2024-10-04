@@ -1,13 +1,10 @@
 package com.pmarko09.school_supervision.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmarko09.school_supervision.model.dto.StudentDTO;
-import com.pmarko09.school_supervision.model.dto.TeacherDTO;
 import com.pmarko09.school_supervision.model.entity.Student;
 import com.pmarko09.school_supervision.service.StudentService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -54,7 +50,8 @@ public class StudentControllerTest {
         //when then
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/students")
-                ).andDo(print())
+                ).
+                andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].id").value(1L))
@@ -90,8 +87,8 @@ public class StudentControllerTest {
                         MockMvcRequestBuilders.post("/students")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(student))
-                )
-                .andDo(print())
+                ).
+                andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstname").value("Ola"))
@@ -112,7 +109,8 @@ public class StudentControllerTest {
         //when then
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/students/1")
-                ).andDo(print())
+                ).
+                andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstname").value("Ola"))
@@ -141,7 +139,8 @@ public class StudentControllerTest {
                         MockMvcRequestBuilders.put("/students/1")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(student))
-                ).andDo(print())
+                ).
+                andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstname").value("Ola"))
@@ -161,7 +160,8 @@ public class StudentControllerTest {
         //when then
         mockMvc.perform(
                         MockMvcRequestBuilders.delete("/students/1")
-                ).andDo(print())
+                ).
+                andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstname").value("Ola"))
@@ -181,7 +181,8 @@ public class StudentControllerTest {
         //when then
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/students/1/schoolClass/2")
-                ).andDo(print())
+                ).
+                andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstname").value("Ola"))
@@ -203,7 +204,8 @@ public class StudentControllerTest {
         //when then
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/students/1/subjects/3")
-                ).andDo(print())
+                ).
+                andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstname").value("Ola"))
@@ -225,7 +227,8 @@ public class StudentControllerTest {
         //when then
         mockMvc.perform(
                         MockMvcRequestBuilders.post("/students/1/examResults/2")
-                ).andDo(print())
+                ).
+                andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.firstname").value("Ola"))

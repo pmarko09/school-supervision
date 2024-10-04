@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -94,6 +93,7 @@ public class TeacherControllerTest {
     void addTeacher_DataCorrect_ReturnStatus200() throws Exception {
         //given
         Teacher teacher = new Teacher();
+        teacher.setId(1L);
         teacher.setFirstname("A");
         teacher.setLastname("B");
         teacher.setEmail("123@");
@@ -106,7 +106,7 @@ public class TeacherControllerTest {
                 .email("123@")
                 .build();
 
-        when(teacherService.addTeacher(any(Teacher.class))).thenReturn(teacherDTO);
+        when(teacherService.addTeacher(teacher)).thenReturn(teacherDTO);
 
         //when then
         mockMvc.perform(
